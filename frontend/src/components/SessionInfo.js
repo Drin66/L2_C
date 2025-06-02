@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+//Session
 const SessionInfo = ({ movieSessions, movieId }) => {
   const handleSessionSelect = (session) => {
     localStorage.setItem('movieSession', JSON.stringify(session));
