@@ -1,4 +1,6 @@
+// SeatShowcase.js
 import React from "react";
+
 function SeatShowcase() {
   return (
     <div>
@@ -14,6 +16,9 @@ function SeatShowcase() {
         </li>
         <li>
           <span className='seat occupied' /> <small>Occupied</small>
+        </li>
+        <li>
+          <span className='seat held' /> <small>Held by others</small>
         </li>
       </ul>
     </div>
