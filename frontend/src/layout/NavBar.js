@@ -3,6 +3,7 @@ import LoginForm from '../components/LoginForm';
 import RegistrationForm from '../components/RegistrationForm';
 import Search from '../components/Search';
 import { logout } from '../utils/Auth';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
 function NavBar({ user, onSearch, onLogin, onLogout }) {
   const [showLoginForm, setShowLoginForm] = useState(false);
@@ -25,6 +26,15 @@ function NavBar({ user, onSearch, onLogin, onLogout }) {
           </a>
         </div>
         <div className='flex-grow lg:flex lg:justify-end items-center'>
+          {/* Add Dashboard Button before Search */}
+          {user && (
+            <Link 
+              to="/User"
+              className='bg-white text-red-500 hover:text-white hover:bg-red-700 rounded px-3 py-1 text-sm font-semibold cursor-pointer h-9 mr-2 flex items-center'
+            >
+              User Dashboard
+            </Link>
+          )}
           <Search onSearch={onSearch} />
         </div>
         <div className='flex flex-col lg:flex-row justify-center items-center mr-5'>
