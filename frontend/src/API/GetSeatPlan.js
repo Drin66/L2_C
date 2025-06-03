@@ -1,3 +1,4 @@
+// GetSeatPlan.js
 async function GetSeatPlan(movieId, movieSession = {}) {
   try {
     const response = await fetch(
