@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BuyTickets from '../API/BuyTickets';
 import getSeatPlan from '../API/GetSeatPlan';
@@ -15,17 +15,21 @@ const movies = [
   },
 ];
 
+// 1min
+const SEAT_HOLD_DURATION = 1 * 60 * 1000;
+
 function SeatPlan({ movie }) {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [heldSeats, setHeldSeats] = useState([]);
   const [successPopupVisible, setSuccessPopupVisible] = useState(false);
   const [recommendedSeat, setRecommendedSeat] = useState(null);
   const navigate = useNavigate();
   const [movieSession, setMovieSession] = useState(null);
   const [userName, setUserName] = useState('');
   const [userId, setUserId] = useState('');
-
   const [seatPlan, setSeatPlan] = useState(null);
+  const [seatHoldTimers, setSeatHoldTimers] = useState({});
 
   useEffect(() => {
     const storedMovieSession = JSON.parse(localStorage.getItem('movieSession'));
@@ -33,6 +37,11 @@ function SeatPlan({ movie }) {
       setMovieSession(storedMovieSession);
     }
   }, []);
+
+  // unique key for each movie + session 
+  const HELD_SEATS_STORAGE_KEY = movie && movieSession
+    ? `heldSeatsData_${movie.id}_${movieSession.time}`
+    : null;
 
   useEffect(() => {
     const fetchSeatPlan = async () => {
@@ -59,26 +68,134 @@ function SeatPlan({ movie }) {
     }
   }, []);
 
-  const occupiedSeats =
-    seatPlan && seatPlan.length > 0 ? seatPlan : movies[0].occupied;
+  const occupiedSeats = seatPlan && seatPlan.length > 0 ? seatPlan : movies[0].occupied;
 
   const availableSeats = [27, 28, 29, 30, 35, 36, 37, 38, 43, 44, 45, 46];
 
+  const getHeldSeatsFromStorage = useCallback(() => {
+    if (!HELD_SEATS_STORAGE_KEY) return [];
+    const storedData = localStorage.getItem(HELD_SEATS_STORAGE_KEY);
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData);
+        const currentTime = Date.now();
+        const activeHolds = parsedData.filter(
+          (hold) => hold.expirationTime > currentTime
+        );
+        localStorage.setItem(HELD_SEATS_STORAGE_KEY, JSON.stringify(activeHolds));
+        return activeHolds.map(hold => hold.seatNumber);
+      } catch (e) {
+        console.error("Failed to parse held seats from localStorage", e);
+        return [];
+      }
+    }
+    return [];
+  }, [HELD_SEATS_STORAGE_KEY]); 
+
+  const updateHeldSeatsInStorage = useCallback((newHeldSeatsArray) => {
+    if (!HELD_SEATS_STORAGE_KEY) return; 
+    const currentTime = Date.now();
+    const dataToStore = newHeldSeatsArray.map(seat => ({
+      seatNumber: seat,
+      expirationTime: currentTime + SEAT_HOLD_DURATION,
+    }));
+    localStorage.setItem(HELD_SEATS_STORAGE_KEY, JSON.stringify(dataToStore));
+  }, [HELD_SEATS_STORAGE_KEY, SEAT_HOLD_DURATION]); 
+
+  useEffect(() => {
+    if (HELD_SEATS_STORAGE_KEY) { 
+      setHeldSeats(getHeldSeatsFromStorage());
+    }
+  }, [getHeldSeatsFromStorage, HELD_SEATS_STORAGE_KEY]);
+
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === HELD_SEATS_STORAGE_KEY) {
+        setHeldSeats(getHeldSeatsFromStorage());
+      }
+    };
+    if (HELD_SEATS_STORAGE_KEY) {
+      window.addEventListener('storage', handleStorageChange);
+    }
+    return () => {
+      if (HELD_SEATS_STORAGE_KEY) {
+        window.removeEventListener('storage', handleStorageChange);
+      }
+    };
+  }, [getHeldSeatsFromStorage, HELD_SEATS_STORAGE_KEY]);
+
   const filteredAvailableSeats = availableSeats.filter(
-    (seat) => !occupiedSeats.includes(seat),
+    (seat) => !occupiedSeats.includes(seat) && !heldSeats.includes(seat)
   );
 
   useEffect(() => {
     let recommended = null;
     for (let i = 0; i < filteredAvailableSeats.length; i++) {
       const seat = filteredAvailableSeats[i];
-      if (!occupiedSeats.includes(seat)) {
+      if (!occupiedSeats.includes(seat) && !heldSeats.includes(seat)) {
         recommended = seat;
         break;
       }
     }
     setRecommendedSeat(recommended);
-  }, [filteredAvailableSeats, occupiedSeats]);
+  }, [filteredAvailableSeats, occupiedSeats, heldSeats]);
+
+  const handleSeatSelection = (seat) => {
+    if (occupiedSeats.includes(seat) || heldSeats.includes(seat)) {
+        return;
+    }
+
+    if (selectedSeats.includes(seat)) {
+      setSelectedSeats(selectedSeats.filter(s => s !== seat));
+      releaseSeatHold(seat);
+    }
+    else {
+      setSelectedSeats([...selectedSeats, seat]);
+      holdSeat(seat);
+    }
+  };
+
+  const holdSeat = (seat) => {
+    setHeldSeats(prevHeldSeats => {
+        const newHeldSeats = [...prevHeldSeats, seat];
+        updateHeldSeatsInStorage(newHeldSeats); 
+        return newHeldSeats;
+    });
+
+    const timer = setTimeout(() => {
+      releaseSeatHold(seat);
+      setSelectedSeats(selectedSeats => selectedSeats.filter(s => s !== seat));
+    }, SEAT_HOLD_DURATION);
+
+    setSeatHoldTimers(prev => ({
+      ...prev,
+      [seat]: timer
+    }));
+  };
+
+  const releaseSeatHold = (seat) => {
+    setHeldSeats(prevHeldSeats => {
+        const newHeldSeats = prevHeldSeats.filter(s => s !== seat);
+        updateHeldSeatsInStorage(newHeldSeats); 
+        return newHeldSeats;
+    });
+
+    if (seatHoldTimers[seat]) {
+      clearTimeout(seatHoldTimers[seat]);
+      setSeatHoldTimers(prev => {
+        const newTimers = { ...prev };
+        delete newTimers[seat];
+        return newTimers;
+      });
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      Object.values(seatHoldTimers).forEach(timer => clearTimeout(timer));
+    };
+  }, [seatHoldTimers]);
 
   let selectedSeatText = '';
   if (selectedSeats.length > 0) {
@@ -138,6 +255,7 @@ function SeatPlan({ movie }) {
       if (updateSuccess) {
         const buyTickets = await BuyTickets(BASE_URL, myOrder);
         if (buyTickets) {
+          selectedSeats.forEach(seat => releaseSeatHold(seat));
           setSuccessPopupVisible(true);
           setTimeout(() => {
             setSuccessPopupVisible(false);
@@ -156,13 +274,18 @@ function SeatPlan({ movie }) {
         <h2 className='mb-8 text-2xl font-semibold text-center'>
           Choose your seats by clicking on the available seats
         </h2>
+        <p className='text-sm text-center mb-4'>
+          Selected seats will be held for {SEAT_HOLD_DURATION / 60000} minutes
+        </p>
       </div>
 
       <div className='CinemaPlan'>
         <SeatSelector
           movie={{ ...movies[0], occupied: occupiedSeats }}
+          heldSeats={heldSeats} 
           selectedSeats={selectedSeats}
           recommendedSeat={recommendedSeat}
+          onSeatClick={handleSeatSelection} 
           onSelectedSeatsChange={(selectedSeats) =>
             setSelectedSeats(selectedSeats)
           }

@@ -5,6 +5,7 @@ import { isLoggedIn } from '../utils/Auth';
 import Genres from './Genre';
 import MovieCard from './MovieCard';
 import RecommendedMovies from './RecommendedMovies';
+import MovieChatbot from './MovieChatbot';
 
 const MovieList = ({ searchText }) => {
   const [movies, setMovies] = useState([]);
@@ -68,6 +69,7 @@ const MovieList = ({ searchText }) => {
       )}
 
       <h1 className='text-left font-bold mb-4'>All Movies</h1>
+      <MovieChatbot />
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {movies.map((movie, index) => (
           <MovieCard key={movie.id} movie={movie} hallNumber={index} />
@@ -96,5 +98,4 @@ const MovieList = ({ searchText }) => {
     </div>
   );
 };
-
 export default MovieList;
