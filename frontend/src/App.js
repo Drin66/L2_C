@@ -6,10 +6,16 @@ import NavBar from './layout/NavBar';
 import Home from './pages/Home';
 import MovieDetails from './pages/MovieDetails';
 import { isLoggedIn, login, logout } from './utils/Auth';
+import User from './pages/User.jsx';
+import Update from './pages/Update.jsx';
+import Signup from './pages/Signup.jsx';
+import ActorMovies from './pages/ActorMovies';
+import MovieChatbot from './components/MovieChatbot'; 
 
 function App() {
   const [searchText, setSearchText] = useState('');
   const [user, setUser] = useState(null);
+  const [showChatbot, setShowChatbot] = useState(false);
 
   useEffect(() => {
     const loggedInUser = isLoggedIn();
@@ -47,8 +53,15 @@ function App() {
             element={<Home searchText={searchText} user={user} />}
           />
           <Route path='/movie/:id' element={<MovieDetails />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/update/:id" element={<Update />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/actor/:actorId" element={<ActorMovies />} />
+
+
         </Routes>
         <Footer />
+        <MovieChatbot />
       </BrowserRouter>
     </div>
   );

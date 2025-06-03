@@ -36,3 +36,35 @@
     transform: rotate(360deg);
   }
 }
+
+
+.seat.held {
+  background-color: blue; 
+  cursor: not-allowed;
+}
+
+.seat.held:hover {
+  background-color: blue;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.ShowCase .seat.held {
+  background-color: blue;
+  margin-right: 5px;
+}
+
+
+.seat.held {
+  background-color: blue; 
+  cursor: not-allowed;
+}
+
+/* ----------------------------------------------------------- */
+.actor-movie-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.actor-movie-card:hover {
+  transform: scale(1.05);
+}
