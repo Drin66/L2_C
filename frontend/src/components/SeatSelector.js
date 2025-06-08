@@ -26,8 +26,6 @@ function SeatSelector({
     { type: 'image', src: redBullLogo, alt: 'Red Bull Logo' },
     { type: 'video', src: NeptunVideo2, alt: 'Neptun Video 2' },
     { type: 'image', src: neptunLogo, alt: 'Neptun Logo' },
-
-
   ];
 
   useEffect(() => {
@@ -47,7 +45,6 @@ function SeatSelector({
 
   function handleSeatClick(seat) {
     const isSelected = selectedSeats.includes(seat);
-    // Check if the seat is currently held by someone else (not in your current selection)
     const isHeldByOthers = heldSeats.includes(seat) && !isSelected;
 
     if (!movie.occupied.includes(seat) && !isHeldByOthers) {
@@ -92,7 +89,6 @@ function SeatSelector({
         {seats.map((seat) => {
           const isSelected = selectedSeats.includes(seat);
           const isOccupied = movie.occupied.includes(seat);
-          // A seat is "held" for others if it's in the heldSeats array AND NOT in the current selectedSeats array
           const isHeld = heldSeats.includes(seat) && !isSelected;
           const showRecommended = selectedSeats.length === 0 && recommendedSeat === seat;
           return (
@@ -103,7 +99,6 @@ function SeatSelector({
                 `seat ${isSelected ? 'selected' : ''} ${isOccupied ? 'occupied' : ''}` +
                 ` ${isHeld ? 'held' : ''} ${showRecommended ? 'recommended' : ''}`
               }
-              // Only allow click if not occupied and not held by others
               onClick={!isOccupied && !isHeld ? () => handleSeatClick(seat) : null}
               onKeyPress={
                 !isOccupied && !isHeld
