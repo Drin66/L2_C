@@ -44,142 +44,178 @@ const Signup = () => {
 
   return (
     <div style={{ 
+      minHeight: '90vh',
       display: 'flex',
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      height: '90vh',
-      backgroundColor: '#f5f5f5'
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+      background: 'linear-gradient(135deg, rgba(17, 25, 40, 0.75) 0%, rgba(17, 25, 40, 0.95) 100%)',
+      backdropFilter: 'blur(10px)'
     }}>
-      <div style={{ 
-        padding: '40px',
-        borderRadius: '8px', 
-        width: '400px', 
-        border: '2px solid #d32f2f',
-        backgroundColor: 'white',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+      <div style={{
+        width: '100%',
+        maxWidth: '500px',
+        padding: '2rem',
+        background: 'rgba(17, 25, 40, 0.75)',
+        borderRadius: '10px',
+        border: '1px solid rgba(255, 255, 255, 0.125)',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        backdropFilter: 'blur(10px)',
       }}>
         <h1 style={{ 
           textAlign: 'center', 
-          fontSize: '24px', 
-          color: '#d32f2f', 
-          marginBottom: '20px',
-          fontWeight: 'bold'
+          color: '#fff',
+          fontSize: '2rem',
+          marginBottom: '2rem',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
         }}>
-          Sign Up Below
+          Sign Up
         </h1>
 
-        <label htmlFor='name' style={{ 
-          display: 'block', 
-          marginBottom: '10px', 
-          fontWeight: 'bold', 
-          color: 'red' 
+        <div style={{ 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.5rem'
         }}>
-          Name:
-        </label>
-        <input 
-          type="text" 
-          placeholder='Enter your name' 
-          onChange={handleChange} 
-          name="name" 
-          style={{ 
-            width: '100%', 
-            padding: '12px', 
-            marginBottom: '20px', 
-            border: '2px solid red', 
-            borderRadius: '5px', 
-            fontSize: '16px' 
-          }}
-        />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label htmlFor='name' style={{ 
+              color: '#e5e7eb',
+              fontWeight: '500',
+            }}>
+              Name:
+            </label>
+            <input 
+              type="text" 
+              placeholder='Enter your name' 
+              onChange={handleChange} 
+              name="name" 
+              style={{ 
+                padding: '0.75rem',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.125)',
+                borderRadius: '6px',
+                color: '#fff',
+                fontSize: '1rem',
+                transition: 'all 0.3s ease',
+                outline: 'none',
+                '&:focus': {
+                  borderColor: '#60a5fa',
+                  boxShadow: '0 0 0 2px rgba(96, 165, 250, 0.2)'
+                }
+              }}
+            />
+          </div>
 
-        <label htmlFor='surname' style={{ 
-          display: 'block', 
-          marginBottom: '10px', 
-          fontWeight: 'bold', 
-          color: 'red' 
-        }}>
-          Surname:
-        </label>
-        <input 
-          type="text" 
-          placeholder='Enter your surname' 
-          onChange={handleChange} 
-          name="surname" 
-          style={{ 
-            width: '100%', 
-            padding: '12px', 
-            marginBottom: '20px', 
-            border: '2px solid red', 
-            borderRadius: '5px', 
-            fontSize: '16px' 
-          }}
-        />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label htmlFor='surname' style={{ 
+              color: '#e5e7eb',
+              fontWeight: '500',
+            }}>
+              Surname:
+            </label>
+            <input 
+              type="text" 
+              placeholder='Enter your surname' 
+              onChange={handleChange} 
+              name="surname" 
+              style={{ 
+                padding: '0.75rem',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.125)',
+                borderRadius: '6px',
+                color: '#fff',
+                fontSize: '1rem',
+                transition: 'all 0.3s ease',
+                outline: 'none',
+                '&:focus': {
+                  borderColor: '#60a5fa',
+                  boxShadow: '0 0 0 2px rgba(96, 165, 250, 0.2)'
+                }
+              }}
+            />
+          </div>
 
-        <label htmlFor='email' style={{ 
-          display: 'block', 
-          marginBottom: '10px', 
-          fontWeight: 'bold', 
-          color: 'red' 
-        }}>
-          Email:
-        </label>
-        <input 
-          type="email" 
-          placeholder='Enter your email' 
-          onChange={handleChange} 
-          name="email" 
-          style={{ 
-            width: '100%', 
-            padding: '12px', 
-            marginBottom: '20px', 
-            border: '2px solid red', 
-            borderRadius: '5px', 
-            fontSize: '16px' 
-          }}
-        />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label htmlFor='email' style={{ 
+              color: '#e5e7eb',
+              fontWeight: '500',
+            }}>
+              Email:
+            </label>
+            <input 
+              type="email" 
+              placeholder='Enter your email' 
+              onChange={handleChange} 
+              name="email" 
+              style={{ 
+                padding: '0.75rem',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.125)',
+                borderRadius: '6px',
+                color: '#fff',
+                fontSize: '1rem',
+                transition: 'all 0.3s ease',
+                outline: 'none',
+                '&:focus': {
+                  borderColor: '#60a5fa',
+                  boxShadow: '0 0 0 2px rgba(96, 165, 250, 0.2)'
+                }
+              }}
+            />
+          </div>
 
-        <label htmlFor='password' style={{ 
-          display: 'block', 
-          marginBottom: '10px', 
-          fontWeight: 'bold', 
-          color: 'red' 
-        }}>
-          Password:
-        </label>
-        <input 
-          type="password" 
-          placeholder='Enter your password' 
-          onChange={handleChange} 
-          name="password" 
-          style={{ 
-            width: '100%', 
-            padding: '12px', 
-            marginBottom: '20px', 
-            border: '2px solid red', 
-            borderRadius: '5px', 
-            fontSize: '16px' 
-          }}
-        />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label htmlFor='password' style={{ 
+              color: '#e5e7eb',
+              fontWeight: '500',
+            }}>
+              Password:
+            </label>
+            <input 
+              type="password" 
+              placeholder='Enter your password' 
+              onChange={handleChange} 
+              name="password" 
+              style={{ 
+                padding: '0.75rem',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.125)',
+                borderRadius: '6px',
+                color: '#fff',
+                fontSize: '1rem',
+                transition: 'all 0.3s ease',
+                outline: 'none',
+                '&:focus': {
+                  borderColor: '#60a5fa',
+                  boxShadow: '0 0 0 2px rgba(96, 165, 250, 0.2)'
+                }
+              }}
+            />
+          </div>
 
-        <button 
-          onClick={handleClick} 
-          style={{ 
-            width: '100%', 
-            padding: '12px', 
-            backgroundColor: '#20615b', 
-            color: 'white', 
-            borderRadius: '5px', 
-            border: 'none', 
-            fontSize: '16px', 
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            transition: 'background-color 0.3s',
-            ':hover': {
-              backgroundColor: '#b71c1c'
-            }
-          }}
-        >
-          Sign up
-        </button>
+          <button 
+            onClick={handleClick} 
+            style={{ 
+              marginTop: '1rem',
+              padding: '0.75rem',
+              background: 'linear-gradient(135deg, #20615b 0%, #1a4c47 100%)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '1rem',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(32, 97, 91, 0.4)'
+              }
+            }}
+          >
+            Sign up
+          </button>
+        </div>
       </div>
     </div>
   );
