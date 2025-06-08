@@ -10,7 +10,8 @@ import User from './pages/User.jsx';
 import Update from './pages/Update.jsx';
 import Signup from './pages/Signup.jsx';
 import ActorMovies from './pages/ActorMovies';
-import MovieChatbot from './components/MovieChatbot'; 
+import MovieChatbot from './components/MovieChatbot';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [searchText, setSearchText] = useState('');
@@ -47,21 +48,49 @@ function App() {
           onLogin={handleLogin}
           onLogout={handleLogout}
         />
-        <Routes>
-          <Route
-            path='/'
-            element={<Home searchText={searchText} user={user} />}
-          />
-          <Route path='/movie/:id' element={<MovieDetails />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/update/:id" element={<Update />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/actor/:actorId" element={<ActorMovies />} />
-
-
-        </Routes>
+        <main className="main-content">
+          <Routes>
+            <Route
+              path='/'
+              element={<Home searchText={searchText} user={user} />}
+            />
+            <Route 
+              path='/movie/:id' 
+              element={
+                <ProtectedRoute>
+                  <MovieDetails />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/user" 
+              element={
+                <ProtectedRoute>
+                  <User />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/update/:id" 
+              element={
+                <ProtectedRoute>
+                  <Update />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/signup" element={<Signup />} />
+            <Route 
+              path="/actor/:actorId" 
+              element={
+                <ProtectedRoute>
+                  <ActorMovies />
+                </ProtectedRoute>
+              } 
+            />
+          </Routes>
+          <MovieChatbot />
+        </main>
         <Footer />
-        <MovieChatbot />
       </BrowserRouter>
     </div>
   );

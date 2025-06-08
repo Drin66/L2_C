@@ -1,10 +1,16 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #1a1a2e, #16213e);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  filter: drop-shadow(0 0 0.75rem rgba(97, 218, 251, 0.2));
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -14,7 +20,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: rgba(40, 44, 52, 0.95);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,10 +28,17 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .App-link {
   color: #61dafb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.App-link:hover {
+  color: #00b7ff;
 }
 
 @keyframes App-logo-spin {
@@ -37,34 +50,104 @@
   }
 }
 
+/* Main content wrapper */
+.main-content {
+  flex: 1;
+  width: 100%;
+  padding: 20px;
+}
+
+/* User Dashboard Styles */
+.dashboard-container {
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+.dashboard-title {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(26, 26, 46, 0.8);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dashboard-table th {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-weight: 500;
+  padding: 1rem;
+  text-align: left;
+}
+
+.dashboard-table td {
+  padding: 1rem;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-table tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dashboard-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dashboard-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 
 .seat.held {
-  background-color: blue; 
+  background-color: #4a90e2;
   cursor: not-allowed;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .seat.held:hover {
-  background-color: blue;
+  background-color: #4a90e2;
   transform: none;
   cursor: not-allowed;
 }
 
 .ShowCase .seat.held {
-  background-color: blue;
+  background-color: #4a90e2;
   margin-right: 5px;
+  transition: all 0.3s ease;
 }
 
-
-.seat.held {
-  background-color: blue; 
-  cursor: not-allowed;
-}
-
-/* ----------------------------------------------------------- */
 .actor-movie-card {
-  transition: transform 0.2s ease-in-out;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .actor-movie-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
