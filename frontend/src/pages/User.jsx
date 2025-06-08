@@ -14,8 +14,7 @@ const User = () => {
         const res = await axios.get("http://localhost:8080/api/v1/users");
         console.log("Fetched users:", res.data);
         
-        // Handle different response structures
-        const usersData = res.data.data || res.data; // In case response is wrapped in a data object
+        const usersData = res.data.data || res.data;
         if (Array.isArray(usersData)) {
           setUsers(usersData);
         } else {
@@ -55,85 +54,62 @@ const User = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1 className='h1-design' style={{ textAlign: "center", marginLeft: "40%", fontSize: '20px', color: 'white' }}>
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">
         Cinema Users Dashboard
       </h1>
       
       {users.length === 0 ? (
-        <div style={{ textAlign: 'center', color: 'white', marginTop: '20px' }}>
+        <div className="text-center text-white mt-4">
           No users found
         </div>
       ) : (
-        <center>
-          <table style={{ 
-            width: '80%', 
-            margin: '10px auto', 
-            borderCollapse: 'collapse', 
-            fontSize: '18px', 
-            fontFamily: 'Arial, sans-serif' 
-          }} border="1">
+        <div className="overflow-x-auto">
+          <table className="dashboard-table">
             <thead>
-              <tr style={{ backgroundColor: '#20615b', color: "white", textAlign: 'center' }}>
-                <th style={{ padding: '10px 15px' }}>Id</th>
-                <th style={{ padding: '10px 15px' }}>Name</th>
-                <th style={{ padding: '10px 15px' }}>Surname</th>
-                <th style={{ padding: '10px 15px' }}>Email</th>
-                <th style={{ padding: '10px 15px' }}>Password</th>
-                <th style={{ padding: '10px 15px' }}>Role</th>
-                <th style={{ padding: '10px 15px' }}>Update</th>
-                <th style={{ padding: '10px 15px' }}>Delete</th>
+              <tr>
+                <th style={{ width: '0%' }}>Id</th>
+                <th style={{ width: '0%' }}>Name</th>
+                <th style={{ width: '0%' }}>Surname</th>
+                <th style={{ width: '0%' }}>Email</th>
+                <th style={{ width: '0%' }}>Password</th>
+                <th style={{ width: '0%' }}>Role</th>
+                <th style={{ width: '0%' }}>Update</th>
+                <th style={{ width: '0%' }}>Delete</th>
               </tr>
             </thead>
             <tbody>
               {users.map(user => (
-                <tr key={user.id} style={{ 
-                  textAlign: 'center', 
-                  backgroundColor: user.id % 2 === 0 ? '#761a1a' : '#761a1a',
-                  color: 'white'
-                }}>
-                  <td style={{ padding: '12px' }}>{user.id}</td>
-                  <td style={{ padding: '12px' }}>{user.name}</td>
-                  <td style={{ padding: '12px' }}>{user.surname}</td>
-                  <td style={{ padding: '12px' }}>{user.email}</td>
-                  <td style={{ padding: '12px' }}>{user.password ? '••••••••' : ''}</td>
-                  <td style={{ padding: '12px' }}>{user.role}</td>
-                  <td className='update'>
-                    <Link to={`/update/${user.id}`} style={{ 
-                      color: "white", 
-                      textDecoration: 'none', 
-                      fontWeight: 'bold' 
-                    }}>
+                <tr key={user.id}>
+                  <td style={{ textAlign: 'center' }}>{user.id}</td>
+                  <td style={{ paddingLeft: '1rem' }}>{user.name}</td>
+                  <td style={{ paddingLeft: '1rem' }}>{user.surname}</td>
+                  <td style={{ paddingLeft: '1rem' }}>{user.email}</td>
+                  <td style={{ textAlign: 'center' }}>{user.password ? '••••••••' : ''}</td>
+                  <td style={{ textAlign: 'center' }}>{user.role}</td>
+                  <td style={{ textAlign: 'center' }}>
+                    <Link to={`/update/${user.id}`} className="text-white hover:text-blue-300 transition-colors">
                       🔄 Update
                     </Link>
                   </td>
-                  <td className='delete' onClick={() => handleDelete(user.id)}>
-                    <span style={{ 
-                      color: "white", 
-                      cursor: 'pointer', 
-                      fontWeight: 'bold' 
-                    }}>
+                  <td style={{ textAlign: 'center' }}>
+                    <button 
+                      onClick={() => handleDelete(user.id)}
+                      className="text-white hover:text-red-300 transition-colors"
+                    >
                       ✖️ Delete
-                    </span>
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </center>
+        </div>
       )}
       
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <Link to="/Signup" style={{ textDecoration: 'none' }}>
-          <button className='users-button' style={{ 
-            backgroundColor: '#20615b', 
-            color: '#fff', 
-            padding: '10px 20px', 
-            borderRadius: '5px', 
-            border: 'none', 
-            fontSize: '18px', 
-            cursor: 'pointer' 
-          }}>
+      <div className="text-center mt-8">
+        <Link to="/Signup">
+          <button className="dashboard-button">
             ➕ Add new User
           </button>
         </Link>
