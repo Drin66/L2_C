@@ -54,17 +54,15 @@ const Genres = ({ setGenreIds }) => {
   };
 
   return (
-    <div className='flex flex-wrap m-4 justify-between'>
+    <div className="flex flex-wrap gap-2 justify-center mb-6">
       {genres.map((genre, index) => (
-        <span
-          key={index}
-          className={`inline-block ${
-            clickedGenres[index] ? 'bg-red-700' : 'bg-red-500 hover:bg-red-700'
-          } text-white rounded px-3 py-1 text-sm font-semibold mx-1 my-1 cursor-pointer`}
+        <button
+          key={genre.id}
           onClick={() => handleGenreClick(index)}
+          className={`genre-button ${clickedGenres[index] ? 'active' : ''}`}
         >
           {genreEmojis[genre.id]} {genre.name}
-        </span>
+        </button>
       ))}
     </div>
   );

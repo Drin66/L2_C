@@ -17,6 +17,10 @@ const Search = ({ onSearch }) => {
         className='border-2 border-red-500 px-2 py-1 rounded-md h-10' 
         value={search}
         onChange={handleChange}
+        style={{
+          backgroundColor: 'white',
+          color: 'black',
+        }}
       />
     </div>
   );
